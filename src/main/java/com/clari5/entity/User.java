@@ -8,42 +8,64 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "user")
+@Entity(name = "CL5_USER_TBL")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @Column(nullable = false, precision = 6)
+    private Integer rvn;
+
+    @NotEmpty
+    @Column(nullable = false, unique = true, length = 10)
+    private String userId;
+
     @NotEmpty()
     @Column(nullable = false, length = 20)
     private String username;
+
     @Column(nullable = false, unique = true, length = 200)
     @NotEmpty
     @Email(message = "{errors.invalid_email}")
     private String email;
+
     @Column(nullable = false)
     @NotEmpty
     @Size(min = 8)
     private String password;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdon;
+    private Date createdOn;
 
     @Column(nullable = false)
     private Boolean enabled;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    /*
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
+     */
     private Set<Role> authorities = new HashSet<>();
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public User setId(Integer id) {
         this.id = id;
+        return this;
+    }
+
+    public String getUserId(){
+        return userId;
+    }
+
+    public User setUserId(String u){
+        this.userId = u;
+        return this;
     }
 
     public String getUsername() {
@@ -78,12 +100,12 @@ public class User {
         this.authorities = authorities;
     }
 
-    public Date getCreatedon() {
-        return createdon;
+    public Date getCreatedOn() {
+        return createdOn;
     }
 
-    public void setCreatedon(Date createdon) {
-        this.createdon = createdon;
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
     }
 
     public Boolean getEnabled() {

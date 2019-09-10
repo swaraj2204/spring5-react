@@ -1,6 +1,6 @@
 package com.clari5;
 
-import com.clari5.repository.UserRepository;
+import com.clari5.crud.UserCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 public class ExampleUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserCrud userCrud;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new ExampleUserDetails(userRepository.getUserByUsername(username));
+        return new ExampleUserDetails(userCrud.getUserByUserId(username));
     }
 }

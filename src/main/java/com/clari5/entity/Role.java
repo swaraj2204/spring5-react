@@ -2,18 +2,24 @@ package com.clari5.entity;
 
 import javax.persistence.*;
 
-@Entity(name = "role")
-public class Role{
+@Entity(name = "CL5_ROLE_TBL")
+public class Role {
 
     public enum RoleType{
         ADMIN, VALIDATOR
     }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(unique = true)
+    private String roleId;
+
     @Enumerated(EnumType.STRING)
-    private RoleType name;
+    private RoleType role;
+
+
 
     public Integer getId() {
         return id;
@@ -23,11 +29,11 @@ public class Role{
         this.id = id;
     }
 
-    public RoleType getName() {
-        return name;
+    public RoleType getRole() {
+        return role;
     }
 
-    public void setName(RoleType name) {
-        this.name = name;
+    public void setRole(RoleType role) {
+        this.role = role;
     }
 }
