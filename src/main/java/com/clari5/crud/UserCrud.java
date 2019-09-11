@@ -12,5 +12,5 @@ public interface UserCrud extends CrudRepository<User,Integer> {
     User getUserByUserId(String userId);
 
     @Query("SELECT u FROM User u JOIN FETCH u.roles WHERE u.userId = (:user_id)")
-    User findByUserIdFecthRoleEagerly(@Param("user_id") String userId);
+    User findByUserIdFetchRoleEagerly(@Param("user_id") String userId);
 }

@@ -15,7 +15,7 @@ public class ExampleUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        return new ExampleUserDetails(userCrud.findByUserIdFecthRoleEagerly(userId));
+        return userCrud.findByUserIdFetchRoleEagerly(userId);
     }
 
 }
