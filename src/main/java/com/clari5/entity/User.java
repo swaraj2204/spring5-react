@@ -1,5 +1,8 @@
 package com.clari5.entity;
 
+import com.clari5.entity.mod.UserMod;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -8,7 +11,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "CL5_USER_TBL")
+@Entity
+@Table(name = "CL5_USER_TBL")
 public class User {
 
     @Id
@@ -18,7 +22,7 @@ public class User {
     @Version
     private Long rvn;
 
-    @NotEmpty
+    @NotEmpty(message = "{user.id.non.empty}")
     @Column(nullable = false, unique = true, length = 10)
     private String userId;
 
@@ -38,18 +42,20 @@ public class User {
 
     @Column(name = "created_on", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date createdOn;
 
     @Column(nullable = false)
     private Boolean enabled;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    /*
-    @JoinTable(name = "user_role",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")})
-     */
-    private Set<Role> authorities = new HashSet<>();
+    @JoinTable(
+            name = "CL5_USER_ROLE_TBL",
+            joinColumns = @JoinColumn(name = "USER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "ROLE_ID")
+    )
+    private Set<Role> roles = new HashSet<>();
+
 
     public Integer getId() {
         return id;
@@ -60,11 +66,11 @@ public class User {
         return this;
     }
 
-    public String getUserId(){
+    public String getUserId() {
         return userId;
     }
 
-    public User setUserId(String u){
+    public User setUserId(String u) {
         this.userId = u;
         return this;
     }
@@ -93,12 +99,12 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getAuthorities() {
-        return authorities;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setAuthorities(Set<Role> authorities) {
-        this.authorities = authorities;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public Date getCreatedOn() {
@@ -115,5 +121,20 @@ public class User {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Long getRvn() {
+        return rvn;
+    }
+
+    public void setRvn(Long rvn) {
+        this.rvn = rvn;
+    }
+
+
+    public static User from(UserMod userMod) {
+        User user = new User();
+        user.setUserId(userMod.getUserId());
+        return user;
     }
 }

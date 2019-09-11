@@ -6,15 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
-@RestController("/mnt")
+@RestController
+@RequestMapping("/mnt")
 public class UserMntController {
 
     @Autowired
     private UserMaintenance userMaintenance;
 
     @GetMapping("/user/{userId}")
-    public User getUser(@PathVariable String userId) {
+    public User getUser(@PathVariable String userId, Principal principal) {
+        System.out.println(principal.getName());
         User user = userMaintenance.getUser(userId);
         return user;
     }

@@ -47,7 +47,7 @@ public class UserMaintenance {
         UserMod userMod = userModCrud.getUserByUserId(userId);
         try {
             // TODO - commit
-            userCrud.save((User) userMod);
+            userCrud.save(User.from(userMod));
             userModCrud.delete(userMod);
             // Audit
         }

@@ -2,7 +2,8 @@ package com.clari5.entity;
 
 import javax.persistence.*;
 
-@Entity(name = "CL5_ROLE_TBL")
+@Entity
+@Table(name = "CL5_ROLE_TBL")
 public class Role {
 
     public enum RoleType{
@@ -16,9 +17,10 @@ public class Role {
     @Version
     private Long rvn;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 100)
     private String roleId;
 
+    @Column(length = 100)
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
