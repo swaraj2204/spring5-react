@@ -13,12 +13,14 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Version
+    private Long rvn;
+
     @Column(unique = true)
     private String roleId;
 
     @Enumerated(EnumType.STRING)
     private RoleType role;
-
 
 
     public Integer getId() {

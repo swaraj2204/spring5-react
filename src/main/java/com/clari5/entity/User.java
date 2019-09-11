@@ -15,8 +15,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(nullable = false, precision = 6)
-    private Integer rvn;
+    @Version
+    private Long rvn;
 
     @NotEmpty
     @Column(nullable = false, unique = true, length = 10)
@@ -36,6 +36,7 @@ public class User {
     @Size(min = 8)
     private String password;
 
+    @Column(name = "created_on", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
 
