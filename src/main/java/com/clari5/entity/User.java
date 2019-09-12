@@ -60,6 +60,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID")
     )
+    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
 
