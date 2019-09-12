@@ -42,7 +42,7 @@ public class UserMaintenance {
         }
     }
 
-    @Transactional( )
+    @Transactional
     public boolean accept(String userId, String authUserId, String remarks){
         UserMod userMod = userModCrud.getUserByUserId(userId);
         try {
