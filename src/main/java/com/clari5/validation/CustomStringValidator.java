@@ -3,10 +3,10 @@ package com.clari5.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class CustomStringValidator implements ConstraintValidator<CustomStringContraints, String> {
+public class CustomStringValidator implements ConstraintValidator<CustomStringConstraints, String> {
 
     @Override
-    public void initialize(CustomStringContraints constraintAnnotation) {
+    public void initialize(CustomStringConstraints constraintAnnotation) {
 
     }
 

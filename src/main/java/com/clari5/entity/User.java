@@ -1,6 +1,7 @@
 package com.clari5.entity;
 
 import com.clari5.entity.mod.UserMod;
+import com.clari5.validation.CustomStringConstraints;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,6 +31,7 @@ public class User implements UserDetails {
 
     @NotEmpty(message = "{user.id.non.empty}")
     @Column(nullable = false, unique = true, length = 10)
+    @CustomStringConstraints
     private String userId;
 
     @NotEmpty()
