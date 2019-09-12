@@ -1,6 +1,7 @@
 package com.clari5.controller;
 
 import com.clari5.datasource.CurrentTenantCtx;
+import com.clari5.datasource.TenantDataSource;
 import com.clari5.entity.User;
 import com.clari5.services.UserMaintenance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class UserMntController {
 
     @Autowired
     private UserMaintenance userMaintenance;
+
+    @Autowired
+    private TenantDataSource tenantDataSource;
 
     @GetMapping("/user/{userId}")
     public User getUser(@PathVariable String userId, Principal principal, @RequestHeader("X_Tenant") String tenantId) {
@@ -33,4 +37,5 @@ public class UserMntController {
     public boolean addUser(@Valid @RequestBody User user) {
         return userMaintenance.addUser(user);
     }
+
 }

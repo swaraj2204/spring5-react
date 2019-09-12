@@ -1,6 +1,6 @@
 package com.clari5;
 
-import com.clari5.datasource.TenantDatasource;
+import com.clari5.datasource.TenantDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,9 +71,10 @@ public class DataSourceConfig {
             dataSources.put(tenant, dataSource);
         }
 
-        AbstractRoutingDataSource dataSource = new TenantDatasource();
+        TenantDataSource dataSource = new TenantDataSource();
         dataSource.setDefaultTargetDataSource(defaultDataSource());
         dataSource.setTargetDataSources(dataSources);
+        dataSource.setLenientFallback(false);
         dataSource.afterPropertiesSet();
         return dataSource;
     }
