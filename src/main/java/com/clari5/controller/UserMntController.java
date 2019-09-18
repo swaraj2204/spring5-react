@@ -17,9 +17,6 @@ public class UserMntController {
     @Autowired
     private UserMaintenance userMaintenance;
 
-    @Autowired
-    private TenantDataSource tenantDataSource;
-
     @GetMapping("/user/{userId}")
     public User getUser(@PathVariable String userId, Principal principal, @RequestHeader("X_Tenant") String tenantId) {
         CurrentTenantCtx.setCurrentTenant(tenantId);
