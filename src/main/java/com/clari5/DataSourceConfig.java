@@ -8,6 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import javax.sql.DataSource;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@EnableJpaAuditing
 public class DataSourceConfig {
 
     @Value("${tenants}")
@@ -31,6 +34,11 @@ public class DataSourceConfig {
 
     @Autowired
     private Environment env;
+
+    @Bean
+    public AuditorAware<String> auditorAware() {
+        return new AuditAwareImpl();
+    }
 
     /**
      * Creates the default data source for the application
