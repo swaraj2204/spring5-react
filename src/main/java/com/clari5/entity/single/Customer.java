@@ -30,14 +30,14 @@ public class Customer {
 
 
     @CreatedBy
-    protected String createdBy;
+    private String createdBy;
 
     @CreatedDate
     @Temporal(TIMESTAMP)
-    protected Date createdDate;
+    private Date createdDate;
 
     @LastModifiedBy
-    protected String lastModifiedBy;
+    private String lastModifiedBy;
 
     @LastModifiedDate
     @Temporal(TIMESTAMP)

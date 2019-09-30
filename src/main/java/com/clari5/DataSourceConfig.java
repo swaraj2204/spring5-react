@@ -6,18 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
-@EnableJpaAuditing
+//@Configuration
+//@EnableJpaAuditing
 public class DataSourceConfig {
 
     @Value("${tenants}")
@@ -39,6 +36,10 @@ public class DataSourceConfig {
     public AuditorAware<String> auditorAware() {
         return new AuditAwareImpl();
     }
+    static Exception print(int i){
+        System.out.println("");
+        return new RuntimeException("");
+    }
 
     /**
      * Creates the default data source for the application
@@ -46,7 +47,6 @@ public class DataSourceConfig {
      * @return
      */
     private DataSource defaultDataSource() {
-
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setConnectionTimeout(env.getProperty("db.default.timeout", Long.class, 30000L));
         dataSource.setMaximumPoolSize(env.getProperty("db.default.max-pool", Integer.class, 5));
