@@ -1,10 +1,10 @@
 import * as React from 'react'
-import {Card, CardActions, CardContent, Button, Typography, CardHeader} from '@material-ui/core';
+import {Card, CardContent, Button, CardHeader} from '@material-ui/core';
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import {AccountCircle, Visibility, VisibilityOff} from "@material-ui/icons";
+import {AccountCircle, SupervisorAccount, Visibility, VisibilityOff} from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
 
 class Login extends React.Component {
@@ -16,7 +16,8 @@ class Login extends React.Component {
             showPassword: false,
             password: '',
             userName: '',
-            error:""
+            error:"",
+            tenant:""
         }
 
     }
@@ -31,6 +32,8 @@ class Login extends React.Component {
             data.userName=e.target.value;
         else if(type==="password")
             data.password=e.target.value;
+        else if(type==="tenant")
+            data.tenant=e.target.value;
         this.setState({data})
     }
 
@@ -49,6 +52,7 @@ class Login extends React.Component {
             body: JSON.stringify({
                 user: data.userName,
                 password: data.password,
+                tenant:data.tenant
             })
         }).then(res=>res.json()).then((result)=>{
             this.props.handleLogin(true);
@@ -64,7 +68,7 @@ class Login extends React.Component {
     render() {
         let data = this.state;
         return (
-            <Card style={{height:"300px"}}>
+            <Card style={{height:"400px"}}>
                 <CardHeader
                     avatar={
                         <Avatar aria-label="recipe">
@@ -80,11 +84,23 @@ class Login extends React.Component {
                         direction="column"
                         justify="flex-start"
                         alignItems="center"
-                        spacing={5}
+                        spacing={3}
                     >
                         <Grid item>
                             <TextField
-                                id="user-weight"
+                                id="tenant"
+                                variant="outlined"
+                                label="Tenant"
+                                value={this.state.tenant}
+                                onChange={this.handleChange.bind(this,'tenant')}
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end"><SupervisorAccount/></InputAdornment>,
+                                }}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                id="user"
                                 variant="outlined"
                                 label="UserName"
                                 value={this.state.userName}
@@ -94,7 +110,7 @@ class Login extends React.Component {
                                 }}
                             />
                         </Grid>
-                        <Grid>
+                        <Grid item>
                             <TextField
                                 id="outlined-adornment-password"
                                 variant="outlined"
