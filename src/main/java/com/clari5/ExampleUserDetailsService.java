@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class ExampleUserDetailsService implements UserDetailsService {
@@ -15,7 +16,11 @@ public class ExampleUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        return userCrud.findByUserIdFetchRoleEagerly(userId);
+        String[] userAndTenant = StringUtils.split(userId, String.valueOf(Character.LINE_SEPARATOR));
+        if (userAndTenant == null || userAndTenant.length != 2) {
+            throw new UsernameNotFoundException("Username and tenant must be provided");
+        }
+        return userCrud.findByUserIdAndTenantFetchRoleEagerly(userAndTenant[0], userAndTenant[1]);
     }
 
 }

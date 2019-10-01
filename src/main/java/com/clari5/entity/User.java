@@ -34,6 +34,11 @@ public class User implements UserDetails {
     @CustomStringConstraints
     private String userId;
 
+    @NotEmpty(message = "{user.id.non.empty}")
+    @Column(nullable = false, unique = true, length = 50)
+    @CustomStringConstraints
+    private String tenant;
+
     @NotEmpty()
     @Column(nullable = false, length = 20)
     private String username;
