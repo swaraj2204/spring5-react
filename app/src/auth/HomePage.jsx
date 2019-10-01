@@ -7,17 +7,20 @@ export default class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedIn: false
+            loggedIn:false,
+            tenant:""
         }
+
 
     }
 
     componentDidMount() {
-
+       let loggedIn= sessionStorage.getItem('loggedin') === 'true';
+       this.setState({loggedIn:loggedIn})
     }
 
-    handleLogin(isLoggedIn) {
-        this.setState({loggedIn: isLoggedIn})
+    handleLogin(tenant) {
+        this.setState({tenant: tenant})
 
     }
 
