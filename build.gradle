@@ -2,8 +2,6 @@ plugins {
 	id 'org.springframework.boot' version '2.1.8.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
-	id 'org.siouan.frontend' version '1.2.1'
-	id "com.dorongold.task-tree" version "1.4"
 }
 
 group = 'com.clari5'
@@ -23,24 +21,4 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	compile group: 'org.hibernate', name: 'hibernate-envers', version: '5.4.5.Final'
 	compile group: 'org.javassist', name: 'javassist', version: '3.25.0-GA'
-	compile('javax.xml.bind:jaxb-api:2.3.0')
-	compile('javax.activation:activation:1.1')
-	compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
-}
-frontend {
-	nodeVersion = '10.16.3'
-	yarnEnabled = false
-	assembleScript = 'run build'
-	checkScript = 'run build'
-}
-
-tasks.register('processFrontendResources', Copy) {
-	description 'Process frontend resources'
-	from "fbuild"
-	into "${project.buildDir}/resources/main/public"
-	dependsOn tasks.named('assembleFrontend')
-}
-
-tasks.named('processResources').configure {
-	dependsOn tasks.named('processFrontendResources')
 }

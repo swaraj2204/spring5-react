@@ -1,6 +1,5 @@
 package com.clari5;
 
-import com.clari5.auth.CustomAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -25,12 +23,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    public CustomAuthFilter authenticationFilter() throws Exception {
-        CustomAuthFilter filter = new CustomAuthFilter();
-        filter.setAuthenticationManager(authenticationManagerBean());
-        return filter;
     }
 
     @Autowired
@@ -47,19 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .csrf().disable().authorizeRequests()
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/index*", "/static/**", "/*.js", "/*.json")
-                .permitAll()
+        http.csrf().disable().authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin().loginPage("/")
-                .defaultSuccessUrl("/")
-                .permitAll()
-                .and()
-                .logout()
                 .and()
                 .httpBasic();
     }

@@ -16,7 +16,7 @@ public class ExampleUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        String[] userAndTenant = StringUtils.split(userId, String.valueOf(Character.LINE_SEPARATOR));
+        String[] userAndTenant = StringUtils.split(userId, "|");
         if (userAndTenant == null || userAndTenant.length != 2) {
             throw new UsernameNotFoundException("Username and tenant must be provided");
         }
