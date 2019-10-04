@@ -1,63 +1,51 @@
-import React from 'react'
+import React, {useState} from 'react'
 import AuthenticationService from "../service/AuthenticationService";
 
-class LoginComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            tenant: '',
-            username: '',
-            password: '',
-            error: false,
-            success: false
-        };
-        this.loginClicked = this.loginClicked.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-    }
+export default function Login(props) {
+    const [tenant, setTenant] = useState('');
+    const [username, setUserName] = useState('');
+    const [password, setPassword] = useState('');
+    const handleChange = (event) => {
+        console.log(event.target.name)
+        switch (event.target.name) {
+            case "tenant":
+                setTenant(event.target.value)
+                break;
+            case "password":
+                setPassword(event.target.value)
+                break;
+            default:
+                setUserName(event.target.value)
+                break;
+        }
+    };
+    const loginClicked = () => {
+        if (username === '') return;
 
-
-    handleChange(event) {
-        this.setState(
-            {
-                [event.target.name]: event.target.value
-            }
-        )
-    }
-
-    render() {
-        return (
-            <div className="container">
-                <div className="form-signin">
-                    <label htmlFor="tenant" className="sr-only">Tenant</label>
-                    <input type="text" id="tenant" name="tenant" className="form-control" placeholder="Tenant"
-                           onChange={this.handleChange} required autoFocus/>
-                    <label htmlFor="username" className="sr-only">User Name</label>
-                    <input type="text" id="username" name="username" className="form-control" placeholder="UserName"
-                           onChange={this.handleChange} required/>
-                    <label htmlFor="password" className="sr-only">Password</label>
-                    <input type="password" name="password" id="password" className="form-control" placeholder="Password"
-                           onChange={this.handleChange} required/>
-                    <button className="btn btn-lg btn-primary btn-block" type="button" onClick={this.loginClicked}>Sign
-                        in
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    loginClicked() {
-        if (this.state.username === '')
-            return;
-        AuthenticationService.doBasicAuth(this.state.tenant, this.state.username, this.state.password)
+        AuthenticationService.doBasicAuth(tenant, username, password)
             .then(() => {
-                AuthenticationService.registerLogin(this.state.tenant, this.state.username, this.state.password);
-                this.props.history.push(`/user`)
+                AuthenticationService.registerLogin(tenant, username, password);
+                props.history.push(`/user`)
             }).catch(() => {
-            this.setState({showSuccessMessage: false});
-            this.setState({hasLoginFailed: true})
+            console.log("Error")
         })
-
     }
-}
-
-export default LoginComponent
+    return (
+        <div className="container">
+            <div className="form-signin">
+                <label htmlFor="tenant" className="sr-only">Tenant</label>
+                <input type="text" id="tenant" name="tenant" className="form-control" placeholder="Tenant"
+                       onChange={handleChange} required autoFocus/>
+                <label htmlFor="username" className="sr-only">User Name</label>
+                <input type="text" id="username" name="username" className="form-control" placeholder="UserName"
+                       onChange={handleChange} required/>
+                <label htmlFor="password" className="sr-only">Password</label>
+                <input type="password" name="password" id="password" className="form-control" placeholder="Password"
+                       onChange={handleChange} required/>
+                <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={loginClicked}>Sign
+                    in
+                </button>
+            </div>
+        </div>
+    );
+};

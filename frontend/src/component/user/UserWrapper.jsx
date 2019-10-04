@@ -16,9 +16,6 @@ export default class UserWrapper extends React.Component {
         this.renderUser = this.renderUser.bind(this);
     }
 
-    componentDidMount() {
-    }
-
     renderUser() {
         switch (this.state.tenant) {
             case "t1":
