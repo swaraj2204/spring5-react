@@ -1,25 +1,37 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import MenuComponent from './MenuComponent';
-import AuthenticatedRoute from "./AuthenticatedRoute";
 import Login from "./LoginComponent";
 import UserWrapper from "./user/UserWrapper";
 import AuthenticationService from "../service/AuthenticationService";
 
-class FrontendApp extends React.Component {
-    render() {
-        return (
-            <Router>
-                <MenuComponent isUserLoggedIn={AuthenticationService.isUserLoggedIn()}/>
-                <Switch>
-                    <Route path="/" exact component={Login}/>
-                    <Route path="/login" exact component={Login}/>
-                    <AuthenticatedRoute path='/logout' exact component={Login}/>
-                    <AuthenticatedRoute path="/user" exact component={UserWrapper}/>
-                </Switch>
-            </Router>
-        );
-    }
-}
+const FrontendApp = () => {
+
+    const [userLoggedIn, setUserLoggedIn] = useState(AuthenticationService.isUserLoggedIn());
+
+    const loginStateHandler = (v) => {
+        setUserLoggedIn(v);
+    };
+
+    return (
+        <Router>
+            <MenuComponent isLoggedIn={userLoggedIn} handleLoginState={loginStateHandler}/>
+            <Switch>
+                <Route exact path="/">
+                    <Login handleLoginState={loginStateHandler} />
+                </Route>
+                <Route exact path="/login">
+                    <Login handleLoginState={loginStateHandler} />
+                </Route>
+                <Route path="/user">
+                    <UserWrapper/>
+                </Route>
+                <Route path="/logout">
+                    <Login handleLoginState={loginStateHandler} />
+                </Route>
+            </Switch>
+        </Router>
+    );
+};
 
 export default FrontendApp

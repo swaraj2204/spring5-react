@@ -2,22 +2,10 @@ import React from 'react'
 import IndianUser from "./IndianUser";
 import SriLankaUser from "./SriLankaUser";
 
+const UserWrapper = () => {
 
-export default class UserWrapper extends React.Component {
-    constructor(props) {
-        super(props);
-        let userId = sessionStorage.getItem('user');
-        let tenantId = sessionStorage.getItem('tenant');
-        this.state = {
-            user: userId,
-            tenant: tenantId,
-
-        }
-        this.renderUser = this.renderUser.bind(this);
-    }
-
-    renderUser() {
-        switch (this.state.tenant) {
+    const renderUser = () => {
+        switch (sessionStorage.getItem("tenant")) {
             case "t1":
                 return <IndianUser/>;
             case "t2":
@@ -25,13 +13,13 @@ export default class UserWrapper extends React.Component {
             default:
                 return <IndianUser/>
         }
-    }
+    };
 
-    render() {
-        return (
+    return (
             <div>
-                {this.renderUser()}
+                {renderUser()}
             </div>
         );
-    }
-}
+};
+
+export default UserWrapper;

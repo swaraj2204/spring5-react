@@ -1,10 +1,12 @@
 import React, {useState} from 'react'
 import AuthenticationService from "../service/AuthenticationService";
 
-export default function Login(props) {
+const Login = (props) => {
+
     const [tenant, setTenant] = useState('');
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
+
     const handleChange = (event) => {
         console.log(event.target.name)
         switch (event.target.name) {
@@ -19,17 +21,20 @@ export default function Login(props) {
                 break;
         }
     };
+
     const loginClicked = () => {
         if (username === '') return;
 
         AuthenticationService.doBasicAuth(tenant, username, password)
             .then(() => {
                 AuthenticationService.registerLogin(tenant, username, password);
-                props.history.push(`/user`)
-            }).catch(() => {
-            console.log("Error")
+                props.handleLoginState(true);
+                props.history.push(`/user`);
+            }).catch((x) => {
+            console.log(x);
         })
-    }
+    };
+
     return (
         <div className="container">
             <div className="form-signin">
@@ -42,10 +47,12 @@ export default function Login(props) {
                 <label htmlFor="password" className="sr-only">Password</label>
                 <input type="password" name="password" id="password" className="form-control" placeholder="Password"
                        onChange={handleChange} required/>
-                <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={loginClicked}>Sign
-                    in
+                <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={loginClicked}>
+                    Sign in
                 </button>
             </div>
         </div>
     );
 };
+
+export default Login;

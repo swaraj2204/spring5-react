@@ -1,11 +1,11 @@
 import React from 'react'
 
-export default class IndianUser extends React.Component {
-    render() {
-        return (
+const IndianUser = () => {
+    return (
             <div>
                 Hello India
             </div>
         );
-    }
-}
+};
+
+export default IndianUser;
