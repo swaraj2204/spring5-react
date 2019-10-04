@@ -51,7 +51,7 @@ class LoginComponent extends React.Component {
         AuthenticationService.doBasicAuth(this.state.tenant, this.state.username, this.state.password)
             .then(() => {
                 AuthenticationService.registerLogin(this.state.tenant, this.state.username, this.state.password);
-                this.props.history.push(`/courses`)
+                this.props.history.push(`/user`)
             }).catch(() => {
             this.setState({showSuccessMessage: false});
             this.setState({hasLoginFailed: true})

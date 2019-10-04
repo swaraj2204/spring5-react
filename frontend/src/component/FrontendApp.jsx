@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import MenuComponent from './MenuComponent';
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import LoginComponent from "./LoginComponent";
+import UserWrapper from "./user/UserWrapper";
 
 class FrontendApp extends React.Component {
     render() {
